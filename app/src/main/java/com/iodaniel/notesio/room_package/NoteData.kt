@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "notes_table")
 class NoteData (
-    @PrimaryKey var id: Int = 0,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
     @ColumnInfo var noteTitle: String = "",
     @ColumnInfo var note: String = "",
     @ColumnInfo var dateCreated: String = "",
@@ -17,5 +17,6 @@ class NoteData (
 class HistoryNote(
     @ColumnInfo var noteTitle: String = "",
     @ColumnInfo var note: String = "",
-    @ColumnInfo var date: String = "",
+    @ColumnInfo var dateCreated: String = "",
+    @ColumnInfo var dateModified: String = "",
 )

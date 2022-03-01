@@ -1,20 +1,21 @@
 package com.iodaniel.notesio.room_package
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Update
+import androidx.lifecycle.LiveData
+import androidx.room.*
 
 @Dao
 interface NoteDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNote(noteData: NoteData) : Long
 
     @Delete
     fun deleteNote(noteData: NoteData)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateNote(noteData: NoteData)
+
+    @Query("SELECT * FROM notes_table")
+    fun returnAllNotes(): LiveData<List<NoteData>>
 
     @Delete
     fun deleteListOfNotes(list: ArrayList<NoteData>)

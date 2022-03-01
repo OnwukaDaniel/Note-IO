@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginVertical="10sp"
+    android:foreground="@drawable/gray_ripple"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/note_row_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Title"
+        android:textColor="@color/white"
+        android:background="@drawable/top_curves"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/note_row_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:background="@drawable/buttom_curves"
+        android:textColor="@color/black"
+        android:maxLines="6"
+        android:padding="7dp"
+        android:lines="3"
+        android:textSize="15sp"/>
+
+</LinearLayout>

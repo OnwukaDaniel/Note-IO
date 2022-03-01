@@ -3,8 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/activity_create_note.xml" value="0.10989583333333333" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/drawable/buttom_curves.xml" value="0.240625" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/drawable/gray_ripple.xml" value="0.240625" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/drawable/ic_add.xml" value="0.240625" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/drawable/input_background.xml" value="0.25" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/drawable/top_curves.xml" value="0.240625" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/activity_create_note.xml" value="0.22" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/create_title_dialog.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/fragment_notes.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/home_header_layout.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/note_row.xml" value="0.33" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/menu/create_note_menu.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/menu/home_nav_menu.xml" value="0.22447916666666667" />
       </map>
     </option>
   </component>

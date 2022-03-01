@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:padding="7sp"
+        android:background="@color/app_color_light"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/create_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="10dp"
+        android:gravity="center|top"
+        android:hint="Untitled"
+        android:lines="3" />
+
+</LinearLayout>
