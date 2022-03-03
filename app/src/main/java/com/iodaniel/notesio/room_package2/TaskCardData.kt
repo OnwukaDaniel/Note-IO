@@ -18,5 +18,7 @@ class TaskData (
     @ColumnInfo var taskTitle: String = "",
     @ColumnInfo var note: String = "",
     @ColumnInfo var dateCreated: String = "",
-    @ColumnInfo var image: String = "",
+    @ColumnInfo var deadline: String = "",
+    @ColumnInfo var taskCategory: String = "",
+    @ColumnInfo var image: String = ""
 )

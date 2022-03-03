@@ -1,4 +1,4 @@
-package com.iodaniel.notesio
+package com.iodaniel.notesio.note_package
 
 import android.app.Dialog
 import android.content.Intent
@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
+import com.iodaniel.notesio.MainActivity
+import com.iodaniel.notesio.R
 import com.iodaniel.notesio.databinding.ActivityCreateNoteBinding
 import com.iodaniel.notesio.databinding.CreateTitleDialogBinding
 import com.iodaniel.notesio.room_package.HistoryNote
 import com.iodaniel.notesio.room_package.NoteData
 import com.iodaniel.notesio.room_package.NoteDatabase
-import com.iodaniel.notesio.utils.HomeViewModel
+import com.iodaniel.notesio.view_model_package.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +21,7 @@ import java.util.*
 
 class CreateNote : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var binding: com.iodaniel.notesio.databinding.ActivityCreateNoteBinding
+    private lateinit var binding: ActivityCreateNoteBinding
     private lateinit var noteDatabase: NoteDatabase
     private lateinit var homeViewModel: HomeViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +29,7 @@ class CreateNote : AppCompatActivity(), View.OnClickListener {
         binding = ActivityCreateNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.createNoteToolbar)
+        title = ""
         binding.createTitle.setOnClickListener(this)
         if (intent.hasExtra("note data")) {
             val json = intent.getStringExtra("note data")
@@ -34,7 +37,7 @@ class CreateNote : AppCompatActivity(), View.OnClickListener {
             setData(noteData)
         }
         homeViewModel = HomeViewModel()
-
+        supportActionBar!!.setHomeButtonEnabled(true)
     }
 
     private fun setData(noteData: NoteData) {
@@ -51,6 +54,7 @@ class CreateNote : AppCompatActivity(), View.OnClickListener {
         when (item.itemId) {
             R.id.create_menu_save -> saveNote()
             R.id.create_menu_delete -> deleteNote()
+            android.R.id.home -> onBackPressed()
         }
         return super.onOptionsItemSelected(item)
     }

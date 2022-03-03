@@ -1,43 +1,46 @@
-package com.iodaniel.notesio
+package com.iodaniel.notesio.note_package
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.iodaniel.notesio.R
 import com.iodaniel.notesio.databinding.FragmentNotesBinding
 import com.iodaniel.notesio.room_package.NoteData
-import com.iodaniel.notesio.utils.HomeViewModel
+import com.iodaniel.notesio.view_model_package.HomeViewModel
 
-class FragmentNotes : Fragment(), View.OnClickListener {
+class FragmentNotes : Fragment(), OnClickListener, NoteAvailabilityListener {
 
-    private val binding by lazy {
-        FragmentNotesBinding.inflate(layoutInflater)
-    }
+    private lateinit var binding: FragmentNotesBinding
     private lateinit var homeViewModel: HomeViewModel
-    private var noteRecyclerView = NoteRecyclerView()
+    private var noteRvAdapter = NoteRecyclerView()
+    private var dataset: ArrayList<NoteData> = arrayListOf()
+    private lateinit var noteAvailabilityListener: NoteAvailabilityListener
     private val orientation = RecyclerView.VERTICAL
 
     override fun onStart() {
         super.onStart()
         binding.homeCreateNote.setOnClickListener(this)
-
+        noteAvailabilityListener = this
 
         homeViewModel = HomeViewModel()
         homeViewModel.getAllData(requireContext())!!.observe(this, { notes ->
-            noteRecyclerView.dataset = notes as ArrayList<NoteData>
-            noteRecyclerView.activity = requireActivity()
+            dataset = notes as ArrayList<NoteData>
+            noteRvAdapter.dataset = dataset
+            noteRvAdapter.activity = requireActivity()
             binding.homeRv.layoutManager =
                 LinearLayoutManager(requireContext(), orientation, false)
-            binding.homeRv.adapter = noteRecyclerView
+            if (dataset.isEmpty()) noteAvailabilityListener.noNote() else noteAvailabilityListener.notePresent()
+            binding.homeRv.adapter = noteRvAdapter
         })
     }
 
@@ -45,6 +48,7 @@ class FragmentNotes : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentNotesBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -57,6 +61,19 @@ class FragmentNotes : Fragment(), View.OnClickListener {
             }
         }
     }
+
+    override fun noNote() {
+        binding.fragmentNoteRoot.visibility = View.VISIBLE
+    }
+
+    override fun notePresent() {
+        binding.fragmentNoteRoot.visibility = View.GONE
+    }
+}
+
+interface NoteAvailabilityListener {
+    fun noNote()
+    fun notePresent()
 }
 
 class NoteRecyclerView : RecyclerView.Adapter<NoteRecyclerView.ViewHolder>() {

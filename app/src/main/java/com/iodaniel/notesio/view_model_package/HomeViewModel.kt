@@ -1,4 +1,4 @@
-package com.iodaniel.notesio.utils
+package com.iodaniel.notesio.view_model_package
 
 import android.content.Context
 import androidx.lifecycle.LiveData

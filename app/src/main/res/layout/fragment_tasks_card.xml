@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
-    android:focusable="true"
-    tools:context=".note_package.FragmentNotes">
+    android:id="@+id/task_card_root"
+    tools:context=".task_card_package.FragmentTaskCards">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_rv"
+        android:id="@+id/fragment_tasks_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_note_root"
+        android:id="@+id/task_availability_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -24,7 +23,8 @@
             android:id="@+id/imageView"
             android:layout_width="180dp"
             android:layout_height="180dp"
-            android:layout_margin="60dp"
+            android:layout_margin="50dp"
+            android:layout_marginBottom="50dp"
             android:contentDescription="@string/empty_task_image"
             android:src="@drawable/empty"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="No Note.\nCreate new Notes."
+            android:text="@string/no_tasks_create_tasks"
             android:textColor="@color/app_color"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
@@ -46,17 +46,17 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/home_create_note"
+        android:id="@+id/task_availability_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="25sp"
+        android:layout_margin="30dp"
+        android:contentDescription="@string/add_tasks"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/app_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:rippleColor="@color/app_color_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

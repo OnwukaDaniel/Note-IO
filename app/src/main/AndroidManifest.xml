@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NotesIO">
         <activity
-            android:name=".CreateNote"
+            android:name=".note_package.CreateNote"
+            android:theme="@style/Theme.CreateNote"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -21,6 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".task_card_package.CreateTaskCard" />
+        <activity android:name=".task_card_package.ActivityCreateTask" />
+        <activity android:name=".task_card_package.ActivityTasks"
+            android:theme="@style/Theme.Tasks"/>
     </application>
 
 </manifest>

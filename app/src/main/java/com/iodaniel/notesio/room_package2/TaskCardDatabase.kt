@@ -7,24 +7,20 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.iodaniel.notesio.utils.TaskConverters
 
-@Database(entities = [TaskCardData::class], version = 1, exportSchema = false)
+@Database(entities = [TaskCardData::class], version = 2, exportSchema = false)
 @TypeConverters(TaskConverters::class)
 abstract class TaskCardDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskCardDao
 
     companion object {
-        private const val DATABASE_NAME = "note data"
+        private const val DB_NAME = "task data"
         private var instance: TaskCardDatabase? = null
         fun getDatabaseInstance(context: Context): TaskCardDatabase? {
             if (instance == null) {
                 synchronized(TaskCardDatabase::class) {
                     if (instance == null) {
                         instance =
-                            Room.databaseBuilder(
-                                context,
-                                TaskCardDatabase::class.java,
-                                DATABASE_NAME
-                            )
+                            Room.databaseBuilder(context, TaskCardDatabase::class.java, DB_NAME)
                                 .fallbackToDestructiveMigration()
                                 .build()
                     }

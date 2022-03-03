@@ -2,4 +2,7 @@
     <string name="app_name">Notes IO</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_tasks">Add Tasks</string>
+    <string name="no_tasks_create_tasks">No tasks\nCreate Tasks</string>
+    <string name="empty_task_image">empty task image</string>
 </resources>

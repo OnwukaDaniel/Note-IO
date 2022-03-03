@@ -7,15 +7,30 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/drawable/gray_ripple.xml" value="0.240625" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/drawable/ic_add.xml" value="0.240625" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/drawable/input_background.xml" value="0.25" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/drawable/task_card_background.xml" value="0.5" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/drawable/top_curves.xml" value="0.240625" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout-land/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout-w1000dp/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout-w1332dp/activity_main.xml" value="0.15918367346938775" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout-w600dp/activity_main.xml" value="0.22864583333333333" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/activity_create_note.xml" value="0.22" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/activity_create_task.xml" value="0.25" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/create_task_label_row.xml" value="0.25" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/create_title_dialog.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/fragment_create_task.xml" value="0.33" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/fragment_create_task_card.xml" value="0.33" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/fragment_notes.xml" value="0.22447916666666667" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/home_header_layout.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/fragment_tasks.xml" value="0.25" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/fragment_tasks_card.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/home_header_layout.xml" value="0.33" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/note_row.xml" value="0.33" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/task_card_row.xml" value="0.5" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/layout/tasks_row.xml" value="0.5" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/menu/create_note_menu.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/menu/home_nav_menu.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/menu/menu_create_task.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/NotesIO/app/src/main/res/menu/task_card_menu.xml" value="0.22447916666666667" />
       </map>
     </option>
   </component>
