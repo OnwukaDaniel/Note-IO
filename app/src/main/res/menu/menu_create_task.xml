@@ -4,5 +4,9 @@
     <item
         android:id="@+id/create_task_save"
         android:title="Save"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/create_task_delete"
+        android:title="Delete Task"
+        app:showAsAction="ifRoom" />
 </menu>

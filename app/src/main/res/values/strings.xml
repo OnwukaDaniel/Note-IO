@@ -5,4 +5,5 @@
     <string name="add_tasks">Add Tasks</string>
     <string name="no_tasks_create_tasks">No tasks\nCreate Tasks</string>
     <string name="empty_task_image">empty task image</string>
+    <string name="TIME_PAIR_STRING">start time</string>
 </resources>

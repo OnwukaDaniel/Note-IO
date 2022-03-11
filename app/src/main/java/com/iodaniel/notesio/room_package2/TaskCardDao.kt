@@ -17,6 +17,9 @@ interface TaskCardDao {
     @Query("SELECT * FROM task_table")
     fun returnAllTaskCards(): LiveData<List<TaskCardData>>
 
+    @Query("SELECT * FROM task_table")
+    fun returnAllTaskCardsN(): List<TaskCardData>
+
     @Delete
     fun deleteListOfTaskCards(list: ArrayList<TaskCardData>)
 }

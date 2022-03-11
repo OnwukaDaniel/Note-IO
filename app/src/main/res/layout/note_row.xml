@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:text="Title"
+        android:ellipsize="end"
         android:textColor="@color/white"
         android:background="@drawable/top_curves"
         android:gravity="center"/>
@@ -23,8 +24,9 @@
         android:layout_height="wrap_content"
         android:gravity="top"
         android:background="@drawable/buttom_curves"
-        android:textColor="@color/black"
+        android:textColor="#707070"
         android:maxLines="6"
+        android:ellipsize="end"
         android:padding="7dp"
         android:lines="3"
         android:textSize="15sp"/>

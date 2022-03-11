@@ -1,12 +1,19 @@
 package com.iodaniel.notesio.task_card_package
 
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
 import android.view.View.OnClickListener
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -15,10 +22,11 @@ import com.iodaniel.notesio.R
 import com.iodaniel.notesio.databinding.FragmentTasksCardBinding
 import com.iodaniel.notesio.room_package2.TaskCardData
 import com.iodaniel.notesio.task_card_package.TaskCardAdapter.ViewHolder
+import com.iodaniel.notesio.utils.Util
 import com.iodaniel.notesio.view_model_package.ViewModelTaskCards
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FragmentTaskCards : Fragment(), TaskCardAvailabilityListener, OnClickListener {
 
@@ -96,21 +104,15 @@ class TaskCardAdapter : RecyclerView.Adapter<ViewHolder>() {
         val datum = dataset[position]
         holder.card_title.text = datum.cardTitle
 
-        holder.card_date_created.text = convertLongToTime(datum.dateCreated.toLong())
+        holder.card_date_created.text = Util.convertLongToDate(datum.dateCreated.toLong())
 
         holder.itemView.setOnClickListener {
             val json = Gson().toJson(datum)
             val intent = Intent(context, ActivityTasks::class.java)
             intent.putExtra("data", json)
             activity.startActivity(intent)
-            activity.overridePendingTransition(0,0)
+            activity.overridePendingTransition(0, 0)
         }
-    }
-
-    private fun convertLongToTime(time: Long): String {
-        val date = Date(time)
-        val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
-        return format.format(date).split(" ")[0]
     }
 
     override fun getItemCount() = dataset.size

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "785470041253",
+    "project_id": "note-io-c904d",
+    "storage_bucket": "note-io-c904d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785470041253:android:bd31d0847a82df18f4314c",
+        "android_client_info": {
+          "package_name": "com.iodaniel.notesio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785470041253-78taa3a538tjn5fgrs15qm87q3vsp3rq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iodaniel.notesio",
+            "certificate_hash": "c45f4a2566efec417cfe0c9f9bb3a67c74c257fe"
+          }
+        },
+        {
+          "client_id": "785470041253-96nff6ke26o9kmdlka2g4fpl7fsdrd1a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5PLiWVynObW0vRFCDnWgMmYgExuwiyps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785470041253-96nff6ke26o9kmdlka2g4fpl7fsdrd1a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

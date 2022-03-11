@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "task_table")
-class TaskCardData (
+class TaskCardData(
     @PrimaryKey(autoGenerate = true) var id: Int = 0,
     @ColumnInfo var cardTitle: String = "",
     @ColumnInfo var dateCreated: String = "",
@@ -13,12 +13,15 @@ class TaskCardData (
     @ColumnInfo var image: String = "",
 )
 
-class TaskData (
+class TaskData(
     @PrimaryKey(autoGenerate = true) var id: Int = 0,
     @ColumnInfo var taskTitle: String = "",
     @ColumnInfo var note: String = "",
     @ColumnInfo var dateCreated: String = "",
+    @ColumnInfo var startDate: String = "",
     @ColumnInfo var deadline: String = "",
     @ColumnInfo var taskCategory: String = "",
-    @ColumnInfo var image: String = ""
+    @ColumnInfo var color: Int = 0,
+    @ColumnInfo var expired: Boolean = false,
+    @ColumnInfo var read: Boolean = false,
 )

@@ -6,23 +6,7 @@
     android:orientation="vertical"
     tools:context=".task_card_package.ActivityCreateTask">
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/app_color"
-        android:id="@+id/create_task_toolbar">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:text="Create task"/>
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -35,52 +19,61 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/app_color"
                 android:layout_margin="10dp"
-                android:text="Details" />
+                android:text="Details"
+                android:textColor="@color/app_color" />
 
-            <EditText
-                android:id="@+id/create_task_details"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Details" />
+                android:hint="Details">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_task_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textColor="@color/app_color"
-                android:text="Start" />
+                android:text="Start"
+                android:textColor="@color/app_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="10"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="10">
 
                 <TextView
                     android:id="@+id/create_task_start_date"
                     android:layout_width="0dp"
-                    android:layout_weight="5"
-                    android:ellipsize="middle"
-                    android:padding="10dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_weight="5"
+                    android:background="#DDDDDD"
+                    android:ellipsize="middle"
                     android:hint="Date"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/create_task_start_time"
                     android:layout_width="0dp"
-                    android:layout_weight="5"
-                    android:ellipsize="middle"
-                    android:padding="10dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_weight="5"
+                    android:background="#DDDDDD"
+                    android:ellipsize="middle"
                     android:hint="Time"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -88,39 +81,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textColor="@color/app_color"
-                android:text="Deadline" />
+                android:text="Deadline"
+                android:textColor="@color/app_color" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="10"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="10">
 
                 <TextView
                     android:id="@+id/create_task_end_date"
                     android:layout_width="0dp"
-                    android:layout_weight="5"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_weight="5"
+                    android:background="#DDDDDD"
                     android:ellipsize="middle"
-                    android:padding="10dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
                     android:hint="Date"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/create_task_end_time"
                     android:layout_width="0dp"
-                    android:layout_weight="5"
-                    android:ellipsize="middle"
-                    android:padding="10dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_weight="5"
+                    android:background="#DDDDDD"
+                    android:ellipsize="middle"
                     android:hint="Time"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <TextView
@@ -138,6 +135,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

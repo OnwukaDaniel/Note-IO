@@ -53,6 +53,7 @@
         android:layout_margin="25sp"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/app_color"
+        app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:rippleColor="@color/app_color_light"
         app:layout_constraintEnd_toEndOf="parent"
