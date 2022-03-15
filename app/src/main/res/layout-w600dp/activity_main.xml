@@ -29,20 +29,19 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginHorizontal="5dp"
-                    android:layout_marginBottom="40dp"
                     android:padding="10dp"
                     android:text="NOTE IO"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="27sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/activity_main_notes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="2dp"
                     android:layout_marginVertical="1dp"
                     android:background="@drawable/task_card_background"
                     android:foreground="@drawable/gray_ripple"
@@ -54,17 +53,39 @@
                     android:id="@+id/activity_main_tasks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="2dp"
                     android:background="@drawable/task_card_background"
                     android:foreground="@drawable/gray_ripple"
                     android:padding="10dp"
                     android:text="Tasks"
                     android:textColor="@color/app_color" />
 
+                <TextView
+                    android:id="@+id/activity_main_setting_large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/task_card_background"
+                    android:foreground="@drawable/gray_ripple"
+                    android:padding="10dp"
+                    android:text="Setting"
+                    android:textColor="@color/app_color" />
+
+                <TextView
+                    android:id="@+id/activity_main_account_large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/task_card_background"
+                    android:foreground="@drawable/gray_ripple"
+                    android:padding="10dp"
+                    android:text="Account"
+                    android:textColor="@color/app_color" />
+
             </LinearLayout>
 
             <View
-                android:layout_width="10dp"
+                android:layout_width="7dp"
                 android:layout_height="match_parent"
                 android:background="@color/app_color" />
 

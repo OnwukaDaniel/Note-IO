@@ -1,4 +1,4 @@
-package com.iodaniel.notesio
+package com.iodaniel.notesio.extra_classes
 
 import android.app.Application
 import android.app.NotificationChannel

@@ -6,7 +6,8 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:background="#F6FD8D"
+        android:background="@color/white"
+        android:elevation="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="@drawable/gray_ripple"
@@ -31,56 +32,48 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_marginVertical="5dp"
+            android:layout_margin="5dp"
             android:weightSum="20">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/task_row_label"
-                android:layout_width="0dp"
-                android:layout_weight="8"
+                android:layout_width="30dp"
                 android:background="@color/white"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="5dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:padding="5dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom"
                 app:shapeAppearance="@style/roundImageView"
                 android:textColor="@color/app_color_light"
                 android:textSize="13sp" />
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="12"
+                android:layout_width="match_parent"
+                android:layout_gravity="end|center"
+                android:gravity="end|center"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
-                    android:layout_weight="12"
                     android:ellipsize="end"
                     android:gravity="end"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
                     android:text="Deadline"
-                    android:textColor="@color/app_color_light"
+                    android:textColor="@color/black"
                     android:textSize="13sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
                     android:id="@+id/task_row_deadline"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
                     android:ellipsize="end"
                     android:gravity="end"
                     android:layout_gravity="center"
-                    android:padding="5dp"
                     android:text="Deadline"
-                    android:textColor="@color/app_color_light"
+                    android:textColor="@color/black"
                     android:textSize="13sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />

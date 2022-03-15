@@ -6,13 +6,19 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name=".App"
+        android:name=".extra_classes.App"
         android:allowBackup="true"
         android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.NotesIO">
+        <activity
+            android:name=".extra_classes.AccountSettings"
+            android:exported="false" />
+        <activity
+            android:name=".extra_classes.SettingsActivity"
+            android:exported="false" />
         <activity
             android:name=".Splash"
             android:exported="true"
@@ -24,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignInSignUp"
+            android:name=".extra_classes.SignInSignUp"
             android:exported="true"
             android:theme="@style/Theme.NotesIO" />
         <activity
@@ -34,15 +40,15 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-        <activity android:name=".task_card_package.CreateTaskCard" />
         <activity
             android:name=".task_card_package.ActivityCreateTask"
             android:theme="@style/Theme.ActivityCreateTask"
+            android:noHistory="true"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".task_card_package.ActivityTasks"
             android:theme="@style/Theme.Tasks" />
-        <activity android:name=".ClosingActivity" />
+        <activity android:name=".extra_classes.ClosingActivity" />
 
         <service android:name=".task_card_package.NotificationService" />
 

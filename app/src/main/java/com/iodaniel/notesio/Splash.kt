@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +12,6 @@ import androidx.core.app.NotificationCompat
 import com.iodaniel.notesio.room_package2.TaskCardData
 import com.iodaniel.notesio.room_package2.TaskCardDatabase
 import com.iodaniel.notesio.utils.Util
-import com.iodaniel.notesio.view_model_package.ViewModelTaskCards
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -19,21 +19,27 @@ import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class Splash : AppCompatActivity() {
-    private var taskCardViewModel = ViewModelTaskCards()
     private var taskCardDataset: ArrayList<TaskCardData> = arrayListOf()
+    private lateinit var settingsPref: SharedPreferences
     private val channelId = "Notification channelID"
+    val scope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        settingsPref = getSharedPreferences(
+            getString(R.string.SETTINGS_SHAREDPREFERENCE),
+            Context.MODE_PRIVATE
+        )
+        val notify =
+            settingsPref.getBoolean(getString(R.string.NOTIFICATION_SHAREDPREFERENCE), false)
         runBlocking {
-            val taskCardDao = TaskCardDatabase.getDatabaseInstance(applicationContext)
-            val scope = CoroutineScope(Dispatchers.IO)
-
             val job = scope.async {
-                taskCardDataset =
-                    taskCardDao!!.taskDao().returnAllTaskCardsN() as ArrayList<TaskCardData>
-                computeData(taskCardDataset)
+                if (notify) {
+                    val taskCardDao = TaskCardDatabase.getDatabaseInstance(applicationContext)
+                    taskCardDataset =
+                        taskCardDao!!.taskDao().returnAllTaskCardsN() as ArrayList<TaskCardData>
+                    computeData(taskCardDataset)
+                }
             }
             job.join()
             val intent = Intent(applicationContext, MainActivity::class.java).apply {
@@ -56,25 +62,27 @@ class Splash : AppCompatActivity() {
                     val read = task.read
 
                     if (expired && read) continue
-                    else if (currentTime > deadline && !read) continue
-
-                    if (expired && !read) { // EXPIRED BUT NOT SEEN.
+                    else if (expired && !read) { // EXPIRED BUT NOT SEEN.
                         notificationData.expiryDate = task.deadline
+                        println("SPLASH SCREEN ****************************** 1")
 
-                    } else if (!expired && currentTime > deadline && !read) { // EXPIRED WHILE AWAY FROM APP, BUT NOT SEEN.
+                    } else if (!expired && currentTime > deadline) { // EXPIRED WHILE AWAY FROM APP, BUT NOT SEEN.
                         taskCardData.taskData[index].expired = true
+                        taskCardData.taskData[index].color = Util.MISSED
                         notificationData.expired = true
-                        println("TASK CARD UPDATED ************************ ")
+                        notificationData.noteExpiredOffline.add(task.note)
+                        println("SPLASH SCREEN ****************************** 2")
 
                     } else if (currentTime < deadline) {
                         val timeDiff = deadline - currentTime
                         notificationData.timeDiff = timeDiff
+                        notificationData.noteNotExpired.add(task.note)
+                        println("SPLASH SCREEN ****************************** 3")
                     }
                     taskCardDao!!.taskDao().updateTaskCard(taskCardData)
-                    notificationData.id = taskCardData.id
-                    notificationData.expiryDate = task.deadline
+                    notificationData.id = 2
+                    notificationData.expiryDate = deadline.toString()
                     notificationData.taskCardTitle = taskCardData.cardTitle
-                    notificationData.note.add(task.note)
                 }
                 createNotification(notificationData)
             }
@@ -85,7 +93,7 @@ class Splash : AppCompatActivity() {
 
     private fun createNotification(notificationData: NotificationData) {
         val appId = "com.iodaniel.notesio"
-        val notificationId = notificationData.id
+        val notificationId = 2
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val intent = Intent(applicationContext, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivities(
@@ -110,7 +118,7 @@ class Splash : AppCompatActivity() {
 
         when {
             notificationData.expired -> {
-                val text = "${notificationData.note} has expired"
+                val text = "${notificationData.noteExpiredOffline} has expired"
                 smallNotification.setTextViewText(R.id.custom_note_small_text, text)
                 bigNotification.setTextViewText(R.id.custom_note_large_text, text)
                 with(manager) { notify(notificationId, builder.build()) }
@@ -131,14 +139,19 @@ class Splash : AppCompatActivity() {
                 val displayExpiryDate = "$day:$month:$year"
                 val displayExpiryTime = "$hour:$minute ${Util.digitToAmPm[amPm]}"
 
-                val trimmedText = if (notificationData.note.size > 31)
-                    notificationData.note.slice(IntRange(0, 30)) else notificationData.note
+                var tasks = ""
+                for ((index, note) in notificationData.noteNotExpired.withIndex()) {
+                    tasks += if (index == 0) note else ", $note"
+                }
 
-                val text = "$trimmedText will expire on $displayExpiryDate by $displayExpiryTime"
-                smallNotification.setTextViewText(R.id.custom_note_small_text, text)
-                bigNotification.setTextViewText(R.id.custom_note_large_text, text)
+                val trimmedText =
+                    if (tasks.length > 51) tasks.slice(IntRange(0, 50)) else "$tasks..."
+
+                val displayText =
+                    "$trimmedText will expire on $displayExpiryDate by $displayExpiryTime"
+                smallNotification.setTextViewText(R.id.custom_note_small_text, displayText)
+                bigNotification.setTextViewText(R.id.custom_note_large_text, displayText)
                 with(manager) { notify(notificationId, builder.build()) }
-                println("timeDiff ************************ ${notificationData.timeDiff}")
             }
         }
     }
@@ -147,7 +160,8 @@ class Splash : AppCompatActivity() {
 class NotificationData(
     var id: Int = 0,
     var taskCardTitle: String = "",
-    var note: ArrayList<String> = arrayListOf(),
+    var noteNotExpired: ArrayList<String> = arrayListOf(),
+    var noteExpiredOffline: ArrayList<String> = arrayListOf(),
     var expiryDate: String = "",
     var timeDiff: Long = 0L,
     var expired: Boolean = false,

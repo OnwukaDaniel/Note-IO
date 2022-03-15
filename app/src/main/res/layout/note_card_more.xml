@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:scrollbars="horizontal">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/white"
+        android:elevation="5dp"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/note_card_more_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:foreground="@drawable/gray_ripple"
+                android:padding="10dp"
+                android:src="@drawable/ic_history"
+                app:tint="@color/app_color" />
+
+            <ImageView
+                android:id="@+id/note_card_more_delete_now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:foreground="@drawable/gray_ripple"
+                android:padding="10dp"
+                android:src="@drawable/ic_delete"
+                app:tint="@color/app_color" />
+
+            <ImageView
+                android:id="@+id/note_card_more_delete_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:foreground="@drawable/gray_ripple"
+                android:padding="10dp"
+                android:src="@drawable/ic_auto_delete"
+                app:tint="@color/app_color" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

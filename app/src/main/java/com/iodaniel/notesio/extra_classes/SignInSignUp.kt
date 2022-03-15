@@ -1,4 +1,4 @@
-package com.iodaniel.notesio
+package com.iodaniel.notesio.extra_classes
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
+import com.iodaniel.notesio.MainActivity
 import com.iodaniel.notesio.databinding.ActivitySignInSignUpBinding
 import com.iodaniel.notesio.databinding.FragmentSignInBinding
 import com.iodaniel.notesio.databinding.FragmentSignUpBinding

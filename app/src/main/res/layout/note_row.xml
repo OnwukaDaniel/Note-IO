@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:gravity="top"
         android:background="@drawable/buttom_curves"
-        android:textColor="#707070"
+        android:textColor="#A8000000"
         android:maxLines="6"
         android:ellipsize="end"
         android:padding="7dp"

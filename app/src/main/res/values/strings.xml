@@ -6,4 +6,7 @@
     <string name="no_tasks_create_tasks">No tasks\nCreate Tasks</string>
     <string name="empty_task_image">empty task image</string>
     <string name="TIME_PAIR_STRING">start time</string>
+    <string name="SETTINGS_SHAREDPREFERENCE">settingsSharedPreferences</string>
+    <string name="NOTIFICATION_SHAREDPREFERENCE">sharedPreferencesNotification</string>
+    <string name="BACKUP_SHAREDPREFERENCE">sharedPreferencesBackUp</string>
 </resources>

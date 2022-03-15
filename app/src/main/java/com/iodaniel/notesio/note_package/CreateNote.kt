@@ -1,5 +1,6 @@
 package com.iodaniel.notesio.note_package
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
@@ -69,7 +70,7 @@ class CreateNote : AppCompatActivity(), View.OnClickListener {
                 noteDatabase.noteDao().deleteNote(noteData)
                 noteDatabase = NoteDatabase.getDatabaseInstance(applicationContext)!!
                 val intent = Intent(this@CreateNote, MainActivity::class.java)
-                runOnUiThread{ onBackPressed() }
+                runOnUiThread { super.onBackPressed() }
             }
         }
     }
@@ -96,7 +97,7 @@ class CreateNote : AppCompatActivity(), View.OnClickListener {
                 noteData.note = binding.createNote.text!!.trim().toString()
                 noteData.noteTitle = binding.createTitle.text.trim().toString()
                 noteDatabase.noteDao().updateNote(noteData)
-                runOnUiThread{ onBackPressed() }
+                runOnUiThread { super.onBackPressed() }
                 return@launch
             } else if (!intent.hasExtra("note data")) {
                 var title = binding.createTitle.text!!.trim().toString()
@@ -109,8 +110,25 @@ class CreateNote : AppCompatActivity(), View.OnClickListener {
                 noteData.dateCreated = datetime.toString()
                 noteData.note = note
                 noteDatabase.noteDao().insertNote(noteData)
-                runOnUiThread{ onBackPressed() }
+                runOnUiThread { super.onBackPressed() }
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        val title = binding.createTitle.text.toString()
+        val note = binding.createNote.text.toString()
+        if (title == "" || note == "") super.onBackPressed()
+        else {
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Stop editing?")
+            alertDialog.setItems(arrayOf("Keep editing", "Discard")) { dialog, which ->
+                when (which) {
+                    0 -> dialog.dismiss()
+
+                    1 -> super.onBackPressed()
+                }
+            }.show()
         }
     }
 

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.IBinder
@@ -17,7 +18,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.iodaniel.notesio.R
 import com.iodaniel.notesio.databinding.ActivityCreateTaskBinding
@@ -29,26 +29,14 @@ import kotlinx.coroutines.*
 import java.util.*
 
 class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListener,
-    TimePickerListener, ColorPickerListener {
+    TimePickerListener, ColorPickerListener, ActivityCreateTaskViewTypeListener {
 
     private lateinit var binding: ActivityCreateTaskBinding
     private lateinit var datePickerListener: DatePickerListener
     private lateinit var timePickerListener: TimePickerListener
-    private var dataset: ArrayList<Int> = arrayListOf(
-        Color.LightGray.toArgb(),
-        Color.Cyan.toArgb(),
-        Color.DarkGray.toArgb(),
-        Color.Magenta.toArgb(),
-        Color.Yellow.toArgb(),
-        Color.Green.toArgb(),
-        Color.Red.toArgb(),
-        Color.Black.toArgb(),
-    )
-    private val months = arrayListOf(
-        "January", "February", "March", "April", "May", "June", "July",
-        "August", "September", "October", "November", "December"
-    )
+    private lateinit var activityCreateTaskViewTypeListener: ActivityCreateTaskViewTypeListener
     private lateinit var taskCardData: TaskCardData
+    private lateinit var settingsPref: SharedPreferences
     private lateinit var taskData: TaskData
     private var taskDataPosition = 0
     private var labelColor = 0
@@ -80,7 +68,7 @@ class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListe
         startHour = hourOfDay.toString()
         val pair = Util.convert24HrTo12Hr(hourOfDay)
 
-        startTime = "${pair.second}:$minute:${pair.first}"
+        startTime = "${pair.second}:$minute ${pair.first}"
         binding.createTaskStartTime.text = startTime
     }
 
@@ -90,7 +78,7 @@ class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListe
         endHour = hourOfDay.toString()
         val pair = Util.convert24HrTo12Hr(hourOfDay)
 
-        endTime = "${pair.second}:$minute:${pair.first}"
+        endTime = "${pair.second}:$minute ${pair.first}"
         binding.createTaskEndTime.text = endTime
     }
 
@@ -100,7 +88,7 @@ class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListe
             startMonth = month.toString()
             startYear = year.toString()
 
-            startDate = "$dayOfMonth, ${months[month]}, $year"
+            startDate = "$dayOfMonth, ${Util.months[month]}, $year"
             binding.createTaskStartDate.text = startDate
         }
 
@@ -110,7 +98,7 @@ class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListe
             endMonth = month.toString()
             endYear = year.toString()
 
-            endDate = "$dayOfMonth, ${months[month]}, $year"
+            endDate = "$dayOfMonth, ${Util.months[month]}, $year"
             binding.createTaskEndDate.text = endDate
         }
 
@@ -128,6 +116,11 @@ class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListe
         binding.createTaskEndTime.setOnClickListener(this)
         datePickerListener = this
         timePickerListener = this
+        activityCreateTaskViewTypeListener = this
+        settingsPref = getSharedPreferences(
+            getString(R.string.SETTINGS_SHAREDPREFERENCE),
+            Context.MODE_PRIVATE
+        )
 
         if (intent.hasExtra("data")) {
             val json = intent.getStringExtra("data")
@@ -147,42 +140,36 @@ class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListe
                 startDate = taskData.startDate
                 endDate = taskData.deadline
 
-                val endDateMod = Util.convertLongToDate(endDate.toLong())
-                val endTimeMod = Util.convertLongToTime(endTime.toLong())
-                val endDateMod1 =
-                    "${endDateMod.split(".")[2]}, ${months[endDateMod.split(".")[1].toInt()]}, ${
-                        endDateMod.split(".")[0]
-                    }"
+                val startInstance = Calendar.getInstance()
+                startInstance.timeInMillis = taskData.startDate.toLong()
+                val endInstance = Calendar.getInstance()
+                endInstance.timeInMillis = taskData.deadline.toLong()
 
-                val startDateMod = Util.convertLongToDate(startDate.toLong())
-                val startTimeMod = Util.convertLongToTime(startTime.toLong())
-                val startDateMod1 =
-                    "${startDateMod.split(".")[2]}, ${months[startDateMod.split(".")[1].toInt()]}, ${
-                        startDateMod.split(".")[0]
-                    }"
+                val startAmPm = startInstance.get(Calendar.AM_PM)
+                var startMinute = startInstance.get(Calendar.MINUTE).toString()
+                val startHour = startInstance.get(Calendar.HOUR)
+                val startDay = startInstance.get(Calendar.DAY_OF_MONTH)
+                val startMonth = startInstance.get(Calendar.MONTH)
+                val startYear = startInstance.get(Calendar.YEAR)
 
-                startYear = startDateMod.split(".")[0]
-                startMonth = startDateMod.split(".")[1]
-                startDay = startDateMod.split(".")[2]
-                startHour = startTimeMod.split(":")[0]
-                startMin = startTimeMod.split(":")[1]
-                startMin = if (startMin.length == 1) "0$startMin" else startMin
+                val endAmPm = startInstance.get(Calendar.AM_PM)
+                var endMinute = endInstance.get(Calendar.MINUTE).toString()
+                val endHour = endInstance.get(Calendar.HOUR)
+                val endDay = endInstance.get(Calendar.DAY_OF_MONTH)
+                val endMonth = endInstance.get(Calendar.MONTH)
+                val endYear = endInstance.get(Calendar.YEAR)
 
-                endYear = endDateMod.split(".")[0]
-                endMonth = endDateMod.split(".")[1]
-                endDay = endDateMod.split(".")[2]
-                endHour = endTimeMod.split(":")[0]
-                endMin = endTimeMod.split(":")[1]
-                endMin = if (endMin.length == 1) "0$endMin" else endMin
+                startMinute = if (startMinute.length == 1) "0$startMinute" else startMinute
+                endMinute = if (endMinute.length == 1) "0$endMinute" else endMinute
 
-                val pairEnd = Util.convert24HrTo12Hr(endHour.toInt())
-                val eTime = "${pairEnd.second}:$endMin:${pairEnd.first}"
-                binding.createTaskEndTime.text = eTime
+                val sTime = "$startHour:$startMinute ${Util.digitToAmPm[startAmPm]}"
+                val eTime = "$endHour:$endMinute ${Util.digitToAmPm[endAmPm]}"
 
-                val pairStart = Util.convert24HrTo12Hr(startHour.toInt())
-                val sTime = "${pairStart.second}:$startMin:${pairStart.first}"
+                val startDateMod1 = "$startDay, ${Util.months[startMonth]}, $startYear"
+                val endDateMod1 = "$endDay, ${Util.months[endMonth]}, $endYear"
+
                 binding.createTaskStartTime.text = sTime
-
+                binding.createTaskEndTime.text = eTime
                 binding.createTaskEndDate.text = endDateMod1
                 binding.createTaskStartDate.text = startDateMod1
             }
@@ -192,7 +179,7 @@ class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListe
             }
         }
 
-        labelAdapter.dataset = dataset
+        labelAdapter.dataset = Util.taskLabelData
         labelAdapter.color = labelColor
         labelAdapter.colorPickerListener = this
         binding.fragmentCreateTasksRv.layoutManager =
@@ -201,7 +188,6 @@ class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListe
     }
 
     private fun saveTask() = runBlocking {
-        val workManager = WorkManager.getInstance(applicationContext)
         val dateTime = Calendar.getInstance().time.time.toString()
         val scope = CoroutineScope(Dispatchers.IO)
         val note = binding.createTaskDetails.text!!.trim().toString()
@@ -221,25 +207,25 @@ class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListe
             taskData.expired = false
             taskCardData.taskData.add(taskData)
             taskCardDatabase.taskDao().updateTaskCard(taskCardData)
-            val taskJson =
-                Gson().toJson(
-                    StartEndTimeData(
-                        startTime.toLong(),
-                        endTime.toLong(),
-                        taskCardData
-                    )
-                )
-            val serviceIntent = Intent(applicationContext, NotificationService::class.java)
-            serviceIntent.putExtra(getString(R.string.TIME_PAIR_STRING), taskJson)
-            startService(serviceIntent)
+
+            val notify =
+                settingsPref.getBoolean(getString(R.string.NOTIFICATION_SHAREDPREFERENCE), false)
+            if (notify) {
+                val startEndTimeData =
+                    StartEndTimeData(startTime.toLong(), endTime.toLong(), taskCardData)
+                val taskJson = Gson().toJson(startEndTimeData)
+                val serviceIntent = Intent(applicationContext, NotificationService::class.java)
+                serviceIntent.putExtra(getString(R.string.TIME_PAIR_STRING), taskJson)
+                startService(serviceIntent)
+            }
         }
         job.join()
         runOnUiThread {
-            val intent = Intent(applicationContext, ActivityTasks::class.java)
             val json = Gson().toJson(taskCardData)
+            val intent = Intent(applicationContext, ActivityTasks::class.java)
             intent.putExtra("data", json)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK and Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
+            overridePendingTransition(0, 0)
         }
     }
 
@@ -305,13 +291,24 @@ class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListe
         return super.onOptionsItemSelected(item)
     }
 
+    private fun keepEditingDialog() {
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.setTitle("Stop editing?")
+            .setItems(arrayOf("Keep editing", "Discard")) { dialog, which ->
+                when (which) {
+                    0 -> dialog.dismiss()
+                    1 -> super.onBackPressed()
+                }
+            }.show()
+    }
+
     private fun deleteTask() {
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
             val taskCardDatabase = TaskCardDatabase.getDatabaseInstance(applicationContext)!!
             taskCardData.taskData.remove(taskData)
             taskCardDatabase.taskDao().updateTaskCard(taskCardData)
-            runOnUiThread { onBackPressed() }
+            runOnUiThread { super.onBackPressed() }
         }
     }
 
@@ -353,6 +350,28 @@ class ActivityCreateTask : AppCompatActivity(), OnClickListener, DatePickerListe
     override fun setColorPicked(color: Int) {
         labelColor = color
     }
+
+    override fun onBackPressed() {
+        val details = binding.createTaskDetails.text.toString().trim()
+        val sTime = binding.createTaskStartTime.text.toString().trim()
+        val eTime = binding.createTaskEndTime.text.toString().trim()
+        val sDate = binding.createTaskStartDate.text.toString().trim()
+        val eDate = binding.createTaskEndDate.text.toString().trim()
+        if (details != "" || sTime != "" || eTime != "" || sDate != "" || eDate != "") keepEditingDialog() else super.onBackPressed()
+    }
+
+    override fun inputDisabled() {
+        binding.createTaskEndDate.isEnabled = false
+        binding.createTaskStartDate.isEnabled = false
+        binding.createTaskStartTime.isEnabled = false
+        binding.createTaskEndTime.isEnabled = false
+        binding.createTaskDetails.isEnabled = false
+        binding.fragmentCreateTasksRv.isEnabled = false
+    }
+}
+
+interface ActivityCreateTaskViewTypeListener {
+    fun inputDisabled()
 }
 
 interface DatePickerListener {
@@ -373,6 +392,7 @@ class StartEndTimeData(
 
 class NotificationService : Service() {
     private val channelId = "Notification channelID"
+    private lateinit var taskDataJson: String
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val scope = CoroutineScope(Dispatchers.IO)
@@ -380,8 +400,8 @@ class NotificationService : Service() {
         val startEndTimeData: StartEndTimeData = Gson().fromJson(json, StartEndTimeData::class.java)
 
         runBlocking {
-            val job = scope.async {
-                val taskDataJson = Gson().toJson(startEndTimeData.taskCardData)
+            scope.launch {
+                taskDataJson = Gson().toJson(startEndTimeData.taskCardData)
                 val timeElapsed = startEndTimeData.endTime - startEndTimeData.startTime
                 val seconds = timeElapsed / 1000
                 val minutes = seconds / 60
@@ -390,24 +410,9 @@ class NotificationService : Service() {
                 var timeLeft = seconds
                 val cardTitle =
                     startEndTimeData.taskCardData.taskData[startEndTimeData.taskCardData.taskData.size - 1].note
-
-                val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                val intentP = Intent(applicationContext, ActivityTasks::class.java)
-                intentP.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                intentP.putExtra("data", taskDataJson)
-                val pendingIntent = PendingIntent.getActivities(
-                    applicationContext, 0,
-                    arrayOf(intentP), PendingIntent.FLAG_UPDATE_CURRENT
-                )
-                intentP.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                val builder = NotificationCompat.Builder(applicationContext, channelId)
-                    .setSmallIcon(R.drawable.app_logo)
-                    .setContentTitle("Note IO Task")
-                    .setContentText("Complete your task")
-                    .setContentIntent(pendingIntent)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
+                val builder = createNotification("Note IO Task", "Complete your task")
                 startForeground(1, builder.build())
+
                 while (timeLeft > 0) {
                     delay(1000)
                     println("THIS IS THE CURRENT TIME ***************$timeLeft")
@@ -416,13 +421,35 @@ class NotificationService : Service() {
                 stopSelf()
             }
         }
-
-
         return START_STICKY
+    }
+
+    private fun createNotification(title: String, text: String): NotificationCompat.Builder {
+        val intentP = Intent(applicationContext, ActivityTasks::class.java)
+        intentP.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intentP.putExtra("data", taskDataJson)
+        val pendingIntent = PendingIntent.getActivities(
+            applicationContext, 0,
+            arrayOf(intentP), PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        return NotificationCompat.Builder(applicationContext, channelId)
+            .setSmallIcon(R.drawable.app_logo)
+            .setContentTitle(title)
+            .setContentText(text)
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
+    override fun onDestroy() {
+        super.onDestroy()
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val builder = createNotification("Note IO Task", "Task expired")
+            .setAutoCancel(true)
+        with(manager) { notify(2, builder.build()) }
+    }
 }
 
 class LabelAdapter : RecyclerView.Adapter<LabelAdapter.ViewHolder>() {
@@ -450,6 +477,8 @@ class LabelAdapter : RecyclerView.Adapter<LabelAdapter.ViewHolder>() {
         val datum = dataset[position]
         holder.view.background = ColorDrawable(datum)
         holder.labels.text = Util.todoLabels[position]
+
+        println("THIS IS THE COLOR OF THE LABEL *********  $datum ******************** $color")
 
         // TICK LOGIC
         if (datum != color) holder.tick.visibility = View.GONE else {

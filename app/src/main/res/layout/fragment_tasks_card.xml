@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:id="@+id/task_card_root"
     tools:context=".task_card_package.FragmentTaskCards">
 
@@ -51,13 +52,13 @@
         android:id="@+id/task_availability_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
+        android:layout_margin="10dp"
         android:contentDescription="@string/add_tasks"
         android:src="@drawable/ic_add"
-        app:backgroundTint="@color/app_color"
+        app:backgroundTint="@color/app_color_light"
         app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:rippleColor="@color/app_color_light"
+        app:rippleColor="@color/app_color_lighter"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white" />
 

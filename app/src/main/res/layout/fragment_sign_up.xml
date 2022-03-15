@@ -11,26 +11,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="E-MAIL"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/fragment_sign_up_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
         android:layout_marginBottom="30dp"
-        android:textSize="17sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PASSWORD"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/fragment_sign_up_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="17sp"
+        android:textSize="18sp"
+        android:inputType="textPassword"
         android:layout_marginBottom="50dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
+        android:paddingVertical="14sp"
         android:background="@drawable/rounded_curves_app_color"
         android:textSize="15sp">
 
@@ -47,7 +50,6 @@
             android:layout_height="wrap_content"
             android:elevation="10dp"
             android:gravity="center"
-            android:paddingVertical="14sp"
             android:text="SIGN UP"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -1,14 +1,15 @@
 package com.iodaniel.notesio.task_card_package
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.view.View.OnClickListener
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,7 @@ class ActivityTasks : AppCompatActivity(), OnClickListener, TaskAvailabilityList
     private lateinit var dimensionListener: DimensionListener
     private var taskAdapter = TaskAdapter()
     private var taskTabAdapter = TaskTabAdapter()
+    private var labelAdapter = LabelLegendAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +95,18 @@ class ActivityTasks : AppCompatActivity(), OnClickListener, TaskAvailabilityList
                 startActivity(intent)
                 overridePendingTransition(0, 0)
             }
+            R.id.activity_task_legend -> {
+                val view = layoutInflater.inflate(R.layout.list_of_task_labels, null, false)
+                val dim = WindowManager.LayoutParams.WRAP_CONTENT
+                val popUpWindow = PopupWindow(view, dim, dim, true)
+                popUpWindow.contentView = view
+                val labelLegend: RecyclerView = view.findViewById(R.id.list_of_task_labels_list)
+                labelAdapter.dataset = Util.taskLabelData
+                labelLegend.adapter = labelAdapter
+                labelLegend.layoutManager =
+                    LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
+                popUpWindow.showAsDropDown(binding.activityTaskLegend)
+            }
         }
     }
 
@@ -111,7 +125,8 @@ class ActivityTasks : AppCompatActivity(), OnClickListener, TaskAvailabilityList
 
     override fun largeScreen() {
         binding.activityTaskTabTitle!!.text = taskCardData.cardTitle
-        binding.activityTaskDateCreated!!.text =  Util.convertLongToDate(taskCardData.dateCreated.toLong())
+        binding.activityTaskDateCreated!!.text =
+            Util.convertLongToDate(taskCardData.dateCreated.toLong())
 
         taskTabAdapter.activity = this
         taskTabAdapter.dataset = taskCardData.taskData
@@ -125,6 +140,19 @@ class ActivityTasks : AppCompatActivity(), OnClickListener, TaskAvailabilityList
         setSupportActionBar(binding.activityTaskToolbar)
         title = ""
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        binding.activityTaskLegend!!.setOnClickListener(this)
+
+        val calenderInstance = Calendar.getInstance()
+        calenderInstance.timeInMillis = taskCardData.dateCreated.toLong()
+        var minute = calenderInstance.get(Calendar.MINUTE).toString()
+        minute = if (minute.length == 1) "0$minute" else minute
+        val hour = calenderInstance.get(Calendar.HOUR)
+        val amPm = calenderInstance.get(Calendar.AM_PM)
+        val day = calenderInstance.get(Calendar.DAY_OF_WEEK)
+        val month = calenderInstance.get(Calendar.MONTH)
+        val year = calenderInstance.get(Calendar.YEAR)
+        val displayText = "Date Created: $hour:$minute $amPm - $day/$month/$year"
+
         binding.activityTaskTitle!!.text = taskCardData.cardTitle
     }
 }
@@ -187,6 +215,7 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.PortraitViewHolder>() {
     lateinit var dataset: ArrayList<TaskData>
     private lateinit var context: Context
     lateinit var activity: Activity
+    private val calenderInstance = Calendar.getInstance()
 
     class PortraitViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val note: TextView = itemView.findViewById(R.id.task_row_note)
@@ -202,9 +231,22 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.PortraitViewHolder>() {
 
     override fun onBindViewHolder(holder: PortraitViewHolder, position: Int) {
         val datum = dataset[position]
+        calenderInstance.timeInMillis = datum.deadline.toLong()
+        var minute = calenderInstance.get(Calendar.MINUTE).toString()
+        minute = if (minute.length > 1) minute else "0$minute"
+        val hour = calenderInstance.get(Calendar.HOUR)
+        val day = calenderInstance.get(Calendar.DAY_OF_MONTH)
+        val month = calenderInstance.get(Calendar.MONTH)
+        val year = calenderInstance.get(Calendar.YEAR)
+        val amPm = Util.digitToAmPm[calenderInstance.get(Calendar.AM_PM)]
+
+        val time = "$hour:$minute $amPm\n on $day/$month/$year"
+
         holder.note.text = datum.note
-        holder.deadline.text = Util.convertLongToDate(datum.deadline.toLong())
+        holder.deadline.text = time
         holder.cardColor.setBackgroundColor(datum.color)
+        if (datum.color == Util.MISSED) holder.deadline.setTextColor(datum.color)
+
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ActivityCreateTask::class.java)
             val json = Gson().toJson(taskCardData)
@@ -216,6 +258,35 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.PortraitViewHolder>() {
             context.startActivity(intent)
             activity.overridePendingTransition(0, 0)
         }
+    }
+
+    override fun getItemCount() = dataset.size
+}
+
+
+class LabelLegendAdapter : RecyclerView.Adapter<LabelLegendAdapter.ViewHolder>() {
+    lateinit var dataset: ArrayList<Int>
+    private lateinit var context: Context
+
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var view: View = itemView.findViewById(R.id.create_task_row)
+        var labels: TextView = itemView.findViewById(R.id.create_task_label_row_type)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        context = parent.context
+        val view =
+            LayoutInflater.from(context)
+                .inflate(R.layout.create_task_label_row_small, parent, false)
+        return ViewHolder(view)
+    }
+
+    @SuppressLint("SwitchIntDef", "NotifyDataSetChanged")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val datum = dataset[position]
+        holder.view.background = ColorDrawable(datum)
+        holder.labels.text = Util.todoLabels[position]
     }
 
     override fun getItemCount() = dataset.size

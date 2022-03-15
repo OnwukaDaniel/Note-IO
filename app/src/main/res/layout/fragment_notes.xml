@@ -50,12 +50,12 @@
         android:id="@+id/home_create_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="25sp"
+        android:layout_margin="10sp"
         android:src="@drawable/ic_add"
-        app:backgroundTint="@color/app_color"
+        app:backgroundTint="@color/app_color_light"
         app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:rippleColor="@color/app_color_light"
+        app:rippleColor="@color/app_color_lighter"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white" />
 

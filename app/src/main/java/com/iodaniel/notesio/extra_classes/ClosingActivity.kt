@@ -1,4 +1,4 @@
-package com.iodaniel.notesio
+package com.iodaniel.notesio.extra_classes
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
