@@ -4,7 +4,7 @@ A note and task keeping android app
 ## Tasks Cards
 <img src= https://user-images.githubusercontent.com/66129851/161614988-38fa4df9-1775-4aa1-bbac-eb94a485550b.png width="200" height="400">
 
-### Notes
+## Notes
 <img src= https://user-images.githubusercontent.com/66129851/161615005-df910cb5-2d53-4bf8-a82a-506bac0d978d.png width="200" height="400">
 
 ## Tasks
